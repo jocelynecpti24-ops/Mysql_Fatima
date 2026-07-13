@@ -16,7 +16,6 @@ package org.example.modelo;
         }
 
         public void setNombre(String nombre) {
-            // Se cambio .isBlank() por .trim().isEmpty() para compatibilidad con Java 8
             if (nombre == null || nombre.isEmpty() || nombre.trim().isEmpty()){
                 System.out.println("El nombre es requerido");
             } else {
@@ -29,7 +28,7 @@ package org.example.modelo;
         }
 
         public void setCurp(String curp) {
-            // Se cambio .isBlank() por .trim().isEmpty() para compatibilidad con Java 8
+
             if (curp == null || curp.trim().isEmpty() || curp.isEmpty()){
                 System.out.println("El CURP es requerido");
             } else {

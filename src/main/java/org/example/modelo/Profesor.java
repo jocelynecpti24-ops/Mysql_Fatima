@@ -7,11 +7,11 @@ public class Profesor {
     private String puesto;
     private double sueldo;
 
-    // Constructor vacío obligatorio
+
     public Profesor() {
     }
 
-    // Constructor con parámetros
+
     public Profesor(int numExpediente, String nombre, String curp, String puesto, double sueldo) {
         this.numExpediente = numExpediente;
         this.nombre = nombre;
@@ -20,7 +20,6 @@ public class Profesor {
         this.sueldo = sueldo;
     }
 
-    // --- GETTERS Y SETTERS (Esenciales para que ProfesorDAO los encuentre) ---
     public int getNumExpediente() {
         return numExpediente;
     }

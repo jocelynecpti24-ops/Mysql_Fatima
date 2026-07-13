@@ -9,7 +9,7 @@ public class Alumno extends PersonaUT {
 
     public Alumno(){}
 
-    // Constructor ordenado exactamente como lo mandas llamar en tu Main
+
     public Alumno(int numExpediente, String nombre, String curp, String grupo, double promedio) {
         super(nombre, curp);
         setNumExpediente(numExpediente);
@@ -35,7 +35,7 @@ public class Alumno extends PersonaUT {
     }
 
     public void setGrupo(String grupo) {
-        // Se cambió .isBlank() por .trim().isEmpty() para solucionar el error de Java 8
+
         if (grupo == null || grupo.isEmpty() || grupo.trim().isEmpty()) {
             System.out.println("El grupo es requerido");
         } else {
@@ -48,7 +48,7 @@ public class Alumno extends PersonaUT {
     }
 
     public void setNumExpediente(int numExpediente) {
-        // Ajustado para aceptar matrículas del año 2025 (como 202516025)
+
         if (numExpediente > 20000000 && numExpediente < 2140000000) {
             this.numExpediente = numExpediente;
         } else {

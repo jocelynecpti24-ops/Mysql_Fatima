@@ -1,7 +1,6 @@
 package org.example.vista;
 
 import org.example.dao.AlumnoDAO;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,50 +14,54 @@ public class Menu {
     static BufferedReader leer = new BufferedReader(new InputStreamReader(System.in));
 
     static AlumnoDAO alumnoDAO = new AlumnoDAO();
-    static Alumno alumno = new Alumno();
-    static Profesor profesor = new Profesor();
     static ProfesorDAO profesorDAO = new ProfesorDAO();
 
     private static void inscribir() throws IOException {
-        System.out.println("nuemeo expediente");
+
+        Alumno alumno = new Alumno();
+
+        System.out.println("Numero expediente:");
         alumno.setNumExpediente(Integer.parseInt(leer.readLine()));
 
-        System.out.println("nombre");
+        System.out.println("nombre:");
         alumno.setNombre(leer.readLine());
 
-        System.out.println("curp");
+        System.out.println("curp:");
         alumno.setCurp(leer.readLine());
 
-        System.out.println("grupo");
+        System.out.println("grupo:");
         alumno.setGrupo(leer.readLine());
 
-        System.out.println("promedio");
+        System.out.println("promedio:");
         alumno.setPromedio(Double.parseDouble(leer.readLine()));
 
         alumnoDAO.inscribirAlumno(alumno);
     }
 
     private static void inscribirProfe() throws IOException {
-        System.out.println("nuemeo expediente");
+        Profesor profesor = new Profesor();
+
+        System.out.println("Numero expediente:");
         profesor.setNumExpediente(Integer.parseInt(leer.readLine()));
 
-        System.out.println("nombre");
+        System.out.println("nombre:");
         profesor.setNombre(leer.readLine());
 
-        System.out.println("curp");
+        System.out.println("curp:");
         profesor.setCurp(leer.readLine());
 
-        System.out.println("puesto");
+        System.out.println("puesto:");
         profesor.setPuesto(leer.readLine());
 
-        System.out.println("sueldo");
+        System.out.println("sueldo:");
         profesor.setSueldo(Double.parseDouble(leer.readLine()));
 
         profesorDAO.registrarProfesor(profesor);
     }
 
-
     private static void actualizar() throws IOException {
+        Alumno alumno = new Alumno();
+
         System.out.println("Numero de expediente del alumno a actualizar:");
         alumno.setNumExpediente(Integer.parseInt(leer.readLine()));
 
@@ -77,8 +80,72 @@ public class Menu {
         alumnoDAO.actualizar(alumno);
     }
 
-    private static void darBaja(){}
-    private static void buscar(){}
+    private static void modificarProfesor() throws IOException {
+        Profesor profesor = new Profesor();
+
+        System.out.println("Numero de expediente del profesor a modificar:");
+        profesor.setNumExpediente(Integer.parseInt(leer.readLine()));
+
+        System.out.println("Nuevo nombre:");
+        profesor.setNombre(leer.readLine());
+
+        System.out.println("Nuevo curp:");
+        profesor.setCurp(leer.readLine());
+
+        System.out.println("Nuevo puesto:");
+        profesor.setPuesto(leer.readLine());
+
+        System.out.println("Nuevo sueldo:");
+        profesor.setSueldo(Double.parseDouble(leer.readLine()));
+
+        profesorDAO.modificarProfesor(profesor);
+    }
+
+    private static void darBaja() throws IOException {
+        System.out.println("Ingresa el numero de expediente del alumno que deseas dar de baja:");
+        int expediente = Integer.parseInt(leer.readLine());
+        alumnoDAO.eliminarAlumno(expediente);
+    }
+
+    private static void darBajaProfesor() throws IOException {
+        System.out.println("Ingresa el numero de expediente del profesor que deseas dar de baja:");
+        int expediente = Integer.parseInt(leer.readLine());
+        profesorDAO.eliminarProfesor(expediente);
+    }
+
+    private static void buscar() throws IOException {
+        System.out.println("¿Qué deseas buscar?");
+        System.out.println("1. Alumno");
+        System.out.println("2. Profesor");
+        System.out.print("Selecciona una opción: ");
+        int tipo = Integer.parseInt(leer.readLine());
+
+        if (tipo == 1) {
+            System.out.println("Ingresa el numero de expediente del alumno a buscar:");
+            int expediente = Integer.parseInt(leer.readLine());
+            Alumno alEncontrado = alumnoDAO.buscarAlumnoPorExpediente(expediente);
+
+            if (alEncontrado != null) {
+                System.out.println("\n[ Alumno Encontrado ]");
+                System.out.println("Expediente: " + alEncontrado.getNumExpediente());
+                System.out.println("Nombre: " + alEncontrado.getNombre());
+                System.out.println("CURP: " + alEncontrado.getCurp());
+                System.out.println("Grupo: " + alEncontrado.getGrupo());
+                System.out.println("Promedio: " + alEncontrado.getPromedio());
+            }
+        } else if (tipo == 2) {
+            System.out.println("Ingresa el numero de expediente del profesor a buscar:");
+            int expediente = Integer.parseInt(leer.readLine());
+            Profesor profEncontrado = profesorDAO.buscarProfesorPorExpediente(expediente);
+
+            if (profEncontrado != null) {
+                System.out.println("\n[ Profesor Encontrado ]");
+                System.out.println(profEncontrado.toString()); // Muestra los datos usando tu toString()
+            }
+        } else {
+            System.out.println("Opción inválida.");
+        }
+    }
 
     private static void mostrar(){
         ArrayList<Alumno> alumnos = alumnoDAO.extraerAlumnos();
@@ -97,31 +164,41 @@ public class Menu {
     }
 
     public static void menu() throws IOException {
-        int salir = 0;
-        while (salir != 6){
-            System.out.println("1. incribri alumno");
-            System.out.println("2. mostra alumno");
-            System.out.println("3. actuaizar un alumno");
-            System.out.println("4. dar de baja un alumno");
-            System.out.println("5. buscar un alumno");
-            System.out.println("6. salir");
-            System.out.println("7. inscribir profesor");
-            System.out.println("8. mostrar profesores");
-            System.out.println("elige una opcion");
-            salir = Integer.parseInt(leer.readLine());
-            switch (salir){
+        int opcion = 0;
+
+
+        while (opcion != 11){
+            System.out.println("\n=== MENU DE LA UNIVERSIDAD ===");
+            System.out.println("1. Inscribir alumno");
+            System.out.println("2. Mostrar alumnos");
+            System.out.println("3. Actualizar un alumno");
+            System.out.println("4. Dar de baja un alumno");
+            System.out.println("5. Buscar (Alumno / Profesor)");
+            System.out.println("6. Inscribir profesor");
+            System.out.println("7. Mostrar profesores");
+            System.out.println("8. Modificar un profesor");
+            System.out.println("9. Dar de baja un profesor");
+            System.out.println("10. Mostrar Todos los Profesores");
+            System.out.println("11. Salir");
+            System.out.println("Elige una opcion:");
+
+            opcion = Integer.parseInt(leer.readLine());
+            switch (opcion){
                 case 1: inscribir(); break;
                 case 2: mostrar(); break;
                 case 3: actualizar(); break;
                 case 4: darBaja(); break;
                 case 5: buscar(); break;
-                case 6:
-                    System.out.println("has salido de la aplicacion");
+                case 6: inscribirProfe(); break;
+                case 7: mostrarProfe(); break;
+                case 8: modificarProfesor(); break;
+                case 9: darBajaProfesor(); break;
+                case 10: mostrarProfe(); break;
+                case 11:
+                    System.out.println("Has salido de la aplicacion.");
                     break;
-                case 7: inscribirProfe(); break;
-                case 8: mostrarProfe(); break;
                 default:
-                    System.out.println("opcion incorrecta");
+                    System.out.println("Opcion incorrecta");
                     break;
             }
         }
